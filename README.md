@@ -120,3 +120,18 @@ def predict_rent():
     print(f"\n💰 Predicted rent: €{price:.2f}")
 predict_rent()
 ```
+
+```
+Listing type: For sale
+Area: Riga
+Rooms: 3
+Area sqm: 50
+Floor: 3
+Total floors: 5
+Building type: Brick
+Construction: All amenities
+Amenities: All amenities
+Latitude: 56.9750922
+Longitude: 24.1398842
+
+💰 Predicted rent: €47696.54```
