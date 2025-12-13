@@ -1,5 +1,4 @@
 # Latvian-House-Price-Prediction-Using-AI-
-no. I hate my life.
 
 ```java
 import pandas as pd
