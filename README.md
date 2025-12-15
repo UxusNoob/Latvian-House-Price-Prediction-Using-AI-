@@ -212,6 +212,7 @@ predict_rent()
 <h1>Lets look at the output:</h1>
 <p>Ive found a house for sale from 4 years ago, its price was €61500. So yea it did a good job. But I AM NOT finished yeat. Hear me out. </p>]
 <br>
+
 ```
 ✅ Model trained successfully
 
