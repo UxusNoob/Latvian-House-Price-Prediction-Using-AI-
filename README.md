@@ -138,7 +138,9 @@ Longitude: 24.1398842
 💰 Predicted rent: €47696.54
 ```
 
-**Implementing flow method in previous code(Tensorflow is complicated, i dont need that)**
+<h1>Implementing flow method in previous code(Tensorflow is complicated, i dont need that)</h1>h1>
+<p>Flow is a visual programming environment where you can create AI, ML pipelines, or automation without writing tons of code. You connect “blocks” (nodes) representing data input, transformations, models, or outputs, forming a “flow” from start to finish.</p>p
+    <br>
 ```python
 import pandas as pd
 import xgboost as xgb
