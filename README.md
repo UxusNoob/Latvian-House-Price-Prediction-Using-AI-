@@ -1,4 +1,27 @@
 # Latvian-House-Price-Prediction-Using-AI-
+<br>
+<h1>Can AI Predict House Prices?</h1>
+
+<h2>Why it CAN be done:</h2>
+<ul>
+  <li><strong>Patterns in historical data:</strong> AI can learn relationships between features (location, size, age) and prices.</li>
+  <li><strong>Complex relationships:</strong> AI models capture nonlinear effects that simple regression cannot.</li>
+  <li><strong>Multiple factors:</strong> AI can use many features like neighborhood, schools, crime rates, economic indicators.</li>
+  <li><strong>Continuous learning:</strong> With new data and feedback, AI models can improve predictions over time.</li>
+</ul>
+
+<h2>Why it CANNOT be done perfectly:</h2>
+<ul>
+  <li><strong>Market volatility:</strong> Sudden economic crises, policy changes, or disasters are unpredictable.</li>
+  <li><strong>Incomplete or biased data:</strong> Poor or skewed historical data leads to unreliable predictions.</li>
+  <li><strong>Human factors:</strong> Emotional or speculative decisions by buyers/sellers cannot be fully modeled.</li>
+  <li><strong>Overfitting risk:</strong> Models may memorize past data and fail on new properties.</li>
+</ul>
+
+<h2>Conclusion:</h2>
+<p>AI can provide useful estimates and help make informed decisions, but it cannot guarantee exact future prices. It works best as a supporting tool, not a crystal ball.</p>
+
+
 **Using XGBOOST**
 <p>This code trains an XGBoost regression model to predict rent prices from a CSV dataset, using numerical and one-hot encoded categorical features, saves the model and encoder, and includes a function to predict rent interactively based on user input.</p>
 <br>
