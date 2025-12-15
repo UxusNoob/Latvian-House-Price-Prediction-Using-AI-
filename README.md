@@ -65,7 +65,7 @@
       <td>Hybrid – lower floors brick, upper floors panel</td>
 </table>
 <br>
-<h2>Why it CAN be done:</h2>
+<h2>Why it CAN be done-</h2>
 <ul>
   <li><strong>Patterns in historical data:</strong> AI can learn relationships between features (location, size, age) and prices.</li>
   <li><strong>Complex relationships:</strong> AI models capture nonlinear effects that simple regression cannot.</li>
@@ -73,7 +73,7 @@
   <li><strong>Continuous learning:</strong> With new data and feedback, AI models can improve predictions over time.</li>
 </ul>
 <br>
-<h2>Why it CANNOT be done perfectly:</h2>
+<h2>Why it CANNOT be done perfectly-</h2>
 <ul>
   <li><strong>Market volatility:</strong> Sudden economic crises, policy changes, or disasters are unpredictable.</li>
   <li><strong>Incomplete or biased data:</strong> Poor or skewed historical data leads to unreliable predictions.</li>
@@ -81,7 +81,7 @@
   <li><strong>Overfitting risk:</strong> Models may memorize past data and fail on new properties.</li>
 </ul>
 <br>
-<h2>Conclusion:</h2>
+<h2>Conclusion-</h2>
 <p>AI can provide useful estimates and help make informed decisions, but it cannot guarantee exact future prices. It works best as a supporting tool, not a crystal ball.</p>
 <br>
 <h2>Okay, enough of the annoying text, lets get to coding.</h2>
