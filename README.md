@@ -251,6 +251,9 @@ if __name__ == "__main__":
     predicted_price = predict_rent(user_input)
     print(f"\n💰 Predicted rent: €{predicted_price:.2f}")
 ```
+<br>
+<h1>Explanation on **construction** types in csv file.</h1>
+<br>
 <table border="1">
   <thead>
     <tr>
