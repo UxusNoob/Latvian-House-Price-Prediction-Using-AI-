@@ -2,7 +2,7 @@
 
 <p><strong>Note:</strong> The CSV file used for this project was taken from <a href="https://www.kaggle.com/datasets/dmitryyemelyanov/riga-real-estate-dataset-cleaned" target="_blank">Kaggle: Riga Real Estate Dataset (cleaned)</a>.</p>
 
-**Warning: This data is 6 years old!!!**
+***Warning: This data is 6 years old!!!***
 
 <h1>Explanation on **construction** types in csv file.</h1>
 
