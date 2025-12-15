@@ -377,4 +377,6 @@ def rent_price_flow():
 if __name__ == "__main__":
     rent_price_flow()
 ```
+<br>
+<p>I will add output later, because i have to do other stuff for now.</p>
 
