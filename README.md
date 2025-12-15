@@ -20,9 +20,8 @@
 
 <h2>Conclusion:</h2>
 <p>AI can provide useful estimates and help make informed decisions, but it cannot guarantee exact future prices. It works best as a supporting tool, not a crystal ball.</p>
-
-
-**Code example using XGBOOST**
+<br>
+<h2>Okay, enough of the annoying text, lets get to coding.</h2>
 <p>This code trains an XGBoost regression model to predict rent prices from a CSV dataset, using numerical and one-hot encoded categorical features, saves the model and encoder, and includes a function to predict rent interactively based on user input.</p>
 <br>
 
