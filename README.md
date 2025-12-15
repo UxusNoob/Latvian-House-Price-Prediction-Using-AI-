@@ -1,6 +1,64 @@
 <h1>Can AI Predict House Prices?</h1>
 
 <p><strong>Note:</strong> The CSV file used for this project was taken from <a href="https://www.kaggle.com/datasets/dmitryyemelyanov/riga-real-estate-dataset-cleaned" target="_blank">Kaggle: Riga Real Estate Dataset (cleaned)</a>.</p>
+<h1>Explanation on **construction** types in csv file.</h1>
+<br>
+<table border="1">
+  <thead>
+    <tr>
+      <th>Value</th>
+      <th>Likely Meaning / Construction Type</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr>
+      <td>LT proj.</td>
+      <td>“Latvian Project” – typical prefabricated panel building (Soviet-era style)</td>
+    </tr>
+    <tr>
+      <td>602.</td>
+      <td>Panel building series from the 1960s–1980s</td>
+    </tr>
+    <tr>
+      <td>P. kara</td>
+      <td>“Pirmā kara” – Pre-war buildings (older masonry)</td>
+    </tr>
+    <tr>
+      <td>Jaun.</td>
+      <td>Jauna / New – Modern construction</td>
+    </tr>
+    <tr>
+      <td>Specpr.</td>
+      <td>Special project (often customized or unusual type)</td>
+    </tr>
+    <tr>
+      <td>Hrušč.</td>
+      <td>Khrushchyovka – Soviet 1–5 story panel buildings</td>
+    </tr>
+    <tr>
+      <td>M. ģim.</td>
+      <td>Mazā ģimenes – small family house, low-rise</td>
+    </tr>
+    <tr>
+      <td>Renov.</td>
+      <td>Renovated building</td>
+    </tr>
+    <tr>
+      <td>103.</td>
+      <td>Another panel building series, similar to 602</td>
+    </tr>
+    <tr>
+      <td>Brick</td>
+      <td>Brick construction</td>
+    </tr>
+    <tr>
+      <td>Masonry</td>
+      <td>Masonry construction (brick/stone)</td>
+    </tr>
+    <tr>
+      <td>Brick-Panel</td>
+      <td>Hybrid – lower floors brick, upper floors panel</td>
+    </t
 
 <h2>Why it CAN be done:</h2>
 <ul>
@@ -305,63 +363,4 @@ def rent_price_flow():
 if __name__ == "__main__":
     rent_price_flow()
 ```
-<br>
-<h1>Explanation on **construction** types in csv file.</h1>
-<br>
-<table border="1">
-  <thead>
-    <tr>
-      <th>Value</th>
-      <th>Likely Meaning / Construction Type</th>
-    </tr>
-  </thead>
-  <tbody>
-    <tr>
-      <td>LT proj.</td>
-      <td>“Latvian Project” – typical prefabricated panel building (Soviet-era style)</td>
-    </tr>
-    <tr>
-      <td>602.</td>
-      <td>Panel building series from the 1960s–1980s</td>
-    </tr>
-    <tr>
-      <td>P. kara</td>
-      <td>“Pirmā kara” – Pre-war buildings (older masonry)</td>
-    </tr>
-    <tr>
-      <td>Jaun.</td>
-      <td>Jauna / New – Modern construction</td>
-    </tr>
-    <tr>
-      <td>Specpr.</td>
-      <td>Special project (often customized or unusual type)</td>
-    </tr>
-    <tr>
-      <td>Hrušč.</td>
-      <td>Khrushchyovka – Soviet 1–5 story panel buildings</td>
-    </tr>
-    <tr>
-      <td>M. ģim.</td>
-      <td>Mazā ģimenes – small family house, low-rise</td>
-    </tr>
-    <tr>
-      <td>Renov.</td>
-      <td>Renovated building</td>
-    </tr>
-    <tr>
-      <td>103.</td>
-      <td>Another panel building series, similar to 602</td>
-    </tr>
-    <tr>
-      <td>Brick</td>
-      <td>Brick construction</td>
-    </tr>
-    <tr>
-      <td>Masonry</td>
-      <td>Masonry construction (brick/stone)</td>
-    </tr>
-    <tr>
-      <td>Brick-Panel</td>
-      <td>Hybrid – lower floors brick, upper floors panel</td>
-    </t
 
