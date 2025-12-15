@@ -133,11 +133,11 @@ Floor: 3
 Total floors: 5
 Building type: Brick
 Construction: All amenities
-Amenities: All amenities
+Amenities: LT proj.
 Latitude: 56.9750922
 Longitude: 24.1398842
 
-💰 Predicted rent: €47696.54
+💰 Predicted rent: €37197.15
 ```
 
 <h1>Implementing flow method in previous code(Tensorflow is complicated, i dont need that)</h1>
@@ -150,8 +150,9 @@ import xgboost as xgb
 from sklearn.preprocessing import OneHotEncoder
 import joblib
 import os
+from prefect import flow, task
 
-# config
+# CONFIG
 DATA_FILE = 'riga.csv'
 MODEL_FILE = 'latvia_rent_model_xgb.pkl'
 ENCODER_FILE = 'latvia_rent_encoder.pkl'
@@ -160,12 +161,12 @@ COLUMNS = [
     'listing_type','area','address','rooms','area_sqm','floor','total_floors',
     'building_type','construction','amenities','price','latitude','longitude'
 ]
-
 NUMERICAL = ['rooms','area_sqm','floor','total_floors','latitude','longitude']
 CATEGORICAL = ['listing_type','area','building_type','construction','amenities']
 TARGET = 'price'
 
-# flow functions
+# TASKS
+@task
 def load_csv(path):
     if not os.path.exists(path):
         raise FileNotFoundError("Dataset not found")
@@ -175,28 +176,30 @@ def load_csv(path):
     df.columns = COLUMNS
     return df
 
+@task
 def preprocess_data(df):
     df = df.drop(columns=['address'])
-    # Numeric conversion
     for col in NUMERICAL + [TARGET]:
         df[col] = pd.to_numeric(df[col], errors='coerce')
-    # Fill missing values
     df[NUMERICAL] = df[NUMERICAL].fillna(df[NUMERICAL].median())
     df[TARGET] = df[TARGET].fillna(df[TARGET].median())
     return df
 
+@task
 def encode_categorical(df):
     encoder = OneHotEncoder(handle_unknown='ignore', sparse_output=False)
     X_cat = encoder.fit_transform(df[CATEGORICAL])
     X_cat_df = pd.DataFrame(X_cat, columns=encoder.get_feature_names_out(CATEGORICAL))
     return encoder, X_cat_df
 
+@task
 def prepare_features(df, X_cat_df):
     X_num = df[NUMERICAL].reset_index(drop=True)
     X = pd.concat([X_num, X_cat_df], axis=1)
     y = df[TARGET]
     return X, y
 
+@task
 def train_model(X, y):
     model = xgb.XGBRegressor(
         objective='reg:squarederror',
@@ -208,12 +211,14 @@ def train_model(X, y):
     model.fit(X, y)
     return model
 
+@task
 def save_artifacts(model, encoder):
     joblib.dump(model, MODEL_FILE)
     joblib.dump(encoder, ENCODER_FILE)
-    print("✅ Model and encoder saved")
+    print("Model and encoder saved")
 
-def predict_rent(user_input: dict):
+@task
+def predict_rent(user_input):
     df = pd.DataFrame([user_input])
     encoder = joblib.load(ENCODER_FILE)
     model = joblib.load(MODEL_FILE)
@@ -224,9 +229,27 @@ def predict_rent(user_input: dict):
     price = model.predict(X_final)[0]
     return price
 
-# main flow
-if __name__ == "__main__":
-    # TRAINING FLOW
+@task
+def update_model_with_real_price(user_input, real_price):
+    """Append new data and retrain model incrementally"""
+    df = pd.read_csv(DATA_FILE, header=None)
+    df.columns = COLUMNS
+    new_row = user_input.copy()
+    new_row['price'] = real_price
+    df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
+    df.to_csv(DATA_FILE, index=False, header=False)
+    # retrain model
+    df = preprocess_data(df)
+    encoder, X_cat_df = encode_categorical(df)
+    X, y = prepare_features(df, X_cat_df)
+    model = train_model(X, y)
+    save_artifacts(model, encoder)
+    print(f"Model updated with new price: €{real_price}")
+
+# FLOW
+@flow
+def rent_price_flow():
+    # Training
     df = load_csv(DATA_FILE)
     df = preprocess_data(df)
     encoder, X_cat_df = encode_categorical(df)
@@ -234,7 +257,7 @@ if __name__ == "__main__":
     model = train_model(X, y)
     save_artifacts(model, encoder)
 
-    # prediction flow
+    # Prediction
     user_input = {
         'listing_type': input("Listing type: "),
         'area': input("Area: "),
@@ -250,6 +273,15 @@ if __name__ == "__main__":
     }
     predicted_price = predict_rent(user_input)
     print(f"\n💰 Predicted rent: €{predicted_price:.2f}")
+
+    # ask user if they know the real price
+    feedback = input("Do you know the real price for this property? (y/n): ").lower()
+    if feedback == 'y':
+        real_price = float(input("Enter the real price: "))
+        update_model_with_real_price(user_input, real_price)
+
+if __name__ == "__main__":
+    rent_price_flow()
 ```
 <br>
 <h1>Explanation on **construction** types in csv file.</h1>
