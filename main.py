@@ -10,10 +10,7 @@ DATA_FILE = 'riga.csv'
 MODEL_FILE = 'latvia_rent_model_xgb.pkl'
 ENCODER_FILE = 'latvia_rent_encoder.pkl'
 
-COLUMNS = [
-    'listing_type','area','address','rooms','area_sqm','floor','total_floors',
-    'building_type','construction','amenities','price','latitude','longitude'
-]
+COLUMNS = ['listing_type','area','address','rooms','area_sqm','floor','total_floors','building_type','construction','amenities','price','latitude','longitude']
 NUMERICAL = ['rooms','area_sqm','floor','total_floors','latitude','longitude']
 CATEGORICAL = ['listing_type','area','building_type','construction','amenities']
 TARGET = 'price'
