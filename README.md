@@ -208,8 +208,15 @@ def predict_rent():
     print(f"\n💰 Predicted rent: €{price:.2f}")
 predict_rent()
 ```
-
+<br>
+<h1>Lets look at the output:</h1>
+<p>Ive found a house for sale from 4 years ago, its price was €61500. So yea it did a good job. But I AM NOT finished yeat. Hear me out. </p>]
+<br>
 ```
+✅ Model trained successfully
+
+Enter rental details
+
 Listing type: For sale
 Area: Riga
 Rooms: 3
@@ -217,15 +224,16 @@ Area sqm: 50
 Floor: 3
 Total floors: 5
 Building type: Brick
-Construction: All amenities
-Amenities: LT proj.
+Construction: Hrušč.
+Amenities: All amentities
 Latitude: 56.9750922
 Longitude: 24.1398842
 
-💰 Predicted rent: €37197.15
+💰 Predicted rent: €61743.69
 ```
-
-<h1>Implementing flow method in previous code(Tensorflow is complicated, i dont need that)</h1>
+<br>
+<h1>There is a way to make prediction more accurate.</h1>
+<p>We can achieve that by implementing flow method in previous code(Tensorflow is complicated, i dont need that)</p>
 <p>Flow is a visual programming environment where you can create AI, ML pipelines, or automation without writing tons of code. You connect “blocks” (nodes) representing data input, transformations, models, or outputs, forming a “flow” from start to finish.</p>
     <br>
     
