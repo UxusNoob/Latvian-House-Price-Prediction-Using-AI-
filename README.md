@@ -420,7 +420,7 @@ y = np.log1p(df[TARGET].values)
 <p>And prediction line too</p>
 
 ```python
-price = np.expm1(model.predict(X.values)[0][0])
+    log_price = model.predict(X.values)[0][0]
 ```
 <p>Improvement of learning speed</p>
 
