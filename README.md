@@ -422,23 +422,38 @@ y = np.log1p(df[TARGET].values)
 ```python
 price = np.expm1(model.predict(X.values)[0][0])
 ```
+<p>Improvement of learning speed</p>
 
-Epoch 50/50
-117/117 ━━━━━━━━━━━━━━━━━━━━ 0s 868us/step - loss: 1027113984.0000 - mae: 14739.3096 - val_loss: 831690176.0000 - val_mae: 12621.5293    
-TensorFlow model, encoder and scaler saved
-Listing type: For sale
-Area: Riga
-Rooms: 3
-Area sqm: 50
-Floor: 3
-Total floors: 5
-Building type: Brick
-Construction: Hrušč.
-Amenities: All amentities
-Latitude: 56.9750922
-Longitude: 24.1398842
-1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 30ms/step
+```python
+optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005)
+```
+<br>
+<h1>Neuron dropout</h1>
+<h3>3. Why 30% for first layer, 20% for second layer?</h3>
 
-💰 Predicted rent (TF): €60754.34
+<p>First layer sees raw features, so it has more neurons → higher dropout (0.3) helps prevent over-reliance on any single input feature.</p>
+
+<p>Second layer is smaller (64 neurons) → we reduce dropout (0.2) because:</p>
+<ul>
+  <li>Fewer neurons, already a bottleneck.</li>
+  <li>Too much dropout could destroy learning in the smaller layer.</li>
+</ul>
+
+<p><strong>Rule of thumb:</strong></p>
+<ul>
+  <li>Larger layers → slightly higher dropout</li>
+  <li>Smaller layers → lower dropout</li>
+</ul>
+
+```python
+def build_tf_model(input_dim: int) -> tf.keras.Model:
+    model = tf.keras.Sequential([
+        tf.keras.layers.Input(shape=(input_dim,)),
+        tf.keras.layers.Dense(128, activation='relu'),
+        tf.keras.layers.Dropout(0.3),
+        tf.keras.layers.Dense(64, activation='relu'),
+        tf.keras.layers.Dropout(0.2),
+        tf.keras.layers.Dense(1)
+    ])
 ```
 
