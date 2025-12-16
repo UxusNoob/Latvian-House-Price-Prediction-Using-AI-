@@ -372,5 +372,26 @@ if __name__ == "__main__":
         print(f"Model updated with new price: €{real_price}")
 ```
 <br>
-<p>I will add output later, because i have to do other stuff for now.</p>
+<h1>Heres the output, it became more realistic(closer to the real price).</h1>
+<br>
+
+```
+Epoch 50/50
+117/117 ━━━━━━━━━━━━━━━━━━━━ 0s 868us/step - loss: 1027113984.0000 - mae: 14739.3096 - val_loss: 831690176.0000 - val_mae: 12621.5293    
+TensorFlow model, encoder and scaler saved
+Listing type: For sale
+Area: Riga
+Rooms: 3
+Area sqm: 50
+Floor: 3
+Total floors: 5
+Building type: Brick
+Construction: Hrušč.
+Amenities: All amentities
+Latitude: 56.9750922
+Longitude: 24.1398842
+1/1 ━━━━━━━━━━━━━━━━━━━━ 0s 30ms/step
+
+💰 Predicted rent (TF): €60754.34
+```
 
