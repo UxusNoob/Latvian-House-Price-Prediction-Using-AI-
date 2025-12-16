@@ -207,9 +207,10 @@ Longitude: 24.1398842
 ```
 <br>
 <h1>There is a way to make prediction more accurate.</h1>
-<p>We can achieve that by implementing flow method in previous code(Tensorflow is complicated, i dont need that)</p>
+<p>We can achieve that by implementing Tensorflow method in previous code (previousle i used prefect flow, BUT THAT was wrong. I was wrong. Okay. Dont throw rocks at me)</p>
 <p>Flow is a visual programming environment where you can create AI, ML pipelines, or automation without writing tons of code. You connect “blocks” (nodes) representing data input, transformations, models, or outputs, forming a “flow” from start to finish.</p>
-    <br>
+
+<br>
     
 ```python
 import pandas as pd
