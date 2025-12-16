@@ -373,6 +373,11 @@ if __name__ == "__main__":
 ```
 <br>
 <h1>Heres the output, it became more realistic(closer to the real price).</h1>
+<p>Tensorflow has epochs. An epoch - one full pass over the entire training dataset.</p>
+<ul>
+  <li>The model sees all training data 50 times</li>
+  <li>Each time, it slightly adjusts its weights to reduce error</li>
+</ul>
 <br>
 
 ```
