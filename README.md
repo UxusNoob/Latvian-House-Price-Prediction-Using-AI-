@@ -375,10 +375,34 @@ if __name__ == "__main__":
 <h1>Heres the output, it became more realistic(closer to the real price).</h1>
 <p>Tensorflow has epochs. An epoch - one full pass over the entire training dataset.</p>
 <ul>
-  <li>The model sees all training data 50 times</li>
-  <li>Each time, it slightly adjusts its weights to reduce error</li>
+  <li>The model sees all training data 50 times.</li>
+  <li>Each time, it slightly adjusts its weights to reduce error.</li>
 </ul>
+<p>So, in real life the more you do sth, the better you become in it. BUT THAT doesnt work with epohs. Ive read that to further improve the code, i have to add EarlyStop, which adjusts the number of echoes, as long as the model improves. When it stops improving, it stops training basically.</p>
 <br>
+<h1>Ive made other significant improvements, which made the code better.</h1>
+<br>
+
+```python
+early_stop = tf.keras.callbacks.EarlyStopping(
+    monitor='val_loss',
+    patience=5,
+    restore_best_weights=True
+)
+```
+
+```python
+model.fit(
+    X.values, y,
+    epochs=200,
+    batch_size=32,
+    validation_split=0.1,
+    callbacks=[early_stop],
+    verbose=1
+)
+```
+<br>
+<p>This code stops epohs when the logaritm stops improving. So instead of wasting time, and space on my hard drive, i've added this.</p>
 
 ```
 Epoch 50/50
