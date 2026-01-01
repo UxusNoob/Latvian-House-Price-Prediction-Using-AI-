@@ -3,7 +3,7 @@
 <br>
 <p>TensorFlow is mainly used for deep learning and neural networks.</p>
 <br>
-<p>XGBoost is mainly used for gradient boosting on structured/tabular data.</p>
+<p>XGBoost is mainly used for gradient boosting on structured/tabular data. I will start from XGBoost.</p>
 <br>
 
 <p><strong>Note:</strong> The CSV file used for this project was taken from <a href="https://www.kaggle.com/datasets/dmitryyemelyanov/riga-real-estate-dataset-cleaned" target="_blank">Kaggle: Riga Real Estate Dataset (cleaned)</a>.</p>
