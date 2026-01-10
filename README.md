@@ -474,11 +474,13 @@ import numpy as np
 import tensorflow as tf
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
+# -----------------------------
 # CONFIG
+# -----------------------------
 DATA_FILE = 'riga.csv'
-MODEL_FILE = 'latvia_rent_model_tf.keras'
-ENCODER_FILE = 'latvia_rent_encoder.pkl'
-SCALER_FILE = 'latvia_rent_scaler.pkl'
+MODEL_FILE = 'latvia_sale_model_tf.keras'
+ENCODER_FILE = 'latvia_sale_encoder.pkl'
+SCALER_FILE = 'latvia_sale_scaler.pkl'
 
 COLUMNS = ['listing_type','area','address','rooms','area_sqm','floor',
            'total_floors','building_type','construction','amenities',
@@ -490,7 +492,7 @@ TARGET = 'price'
 
 def load_csv(path):
     if not os.path.exists(path):
-        raise FileNotFoundError("Dataset not found")
+        raise FileNotFoundError(f"Dataset not found: {path}")
     df = pd.read_csv(path, header=None)
     if df.shape[1] != len(COLUMNS):
         raise ValueError(f"CSV column count mismatch: expected {len(COLUMNS)}, got {df.shape[1]}")
@@ -498,11 +500,18 @@ def load_csv(path):
     return df
 
 def preprocess_data(df):
+    # Only "For sale" listings
+    df = df[df['listing_type'] == 'For sale'].copy()
     df = df.drop(columns=['address'])
+    
+    # Convert numerical columns
     for col in NUMERICAL + [TARGET]:
         df[col] = pd.to_numeric(df[col], errors='coerce')
+    
+    # Fill missing values
     df[NUMERICAL] = df[NUMERICAL].fillna(df[NUMERICAL].median())
     df[TARGET] = df[TARGET].fillna(df[TARGET].median())
+    
     return df
 
 def encode_and_scale(df, fit=True, encoder=None, scaler=None):
@@ -518,10 +527,7 @@ def encode_and_scale(df, fit=True, encoder=None, scaler=None):
     else:
         X_num = scaler.transform(df[NUMERICAL])
 
-    X = pd.DataFrame(
-        data=np.hstack([X_num, X_cat]),
-        columns=[f"num_{c}" for c in NUMERICAL] + list(encoder.get_feature_names_out(CATEGORICAL))
-    )
+    X = np.hstack([X_num, X_cat])
     return X, encoder, scaler
 
 def build_tf_model(input_dim: int) -> tf.keras.Model:
@@ -533,9 +539,8 @@ def build_tf_model(input_dim: int) -> tf.keras.Model:
         tf.keras.layers.Dropout(0.2),
         tf.keras.layers.Dense(1)
     ])
-
     model.compile(
-        optimizer=tf.keras.optimizers.Adam(learning_rate=0.0005),
+        optimizer=tf.keras.optimizers.Adam(learning_rate=1.25e-4),
         loss='mse',
         metrics=['mae']
     )
@@ -545,9 +550,8 @@ def train_tf_model():
     df = load_csv(DATA_FILE)
     df = preprocess_data(df)
 
-    # log-transform target to stabilize skewed prices
-    y = np.log1p(df[TARGET].values)
-
+    # Target: raw sale price (no log)
+    y = df[TARGET].values
     X, encoder, scaler = encode_and_scale(df, fit=True)
 
     model = build_tf_model(X.shape[1])
@@ -567,7 +571,7 @@ def train_tf_model():
     )
 
     model.fit(
-        X.values, y,
+        X, y,
         epochs=200,
         batch_size=32,
         validation_split=0.1,
@@ -575,13 +579,13 @@ def train_tf_model():
         verbose=1
     )
 
-    # save everything
+    # Save model and preprocessing objects
     model.save(MODEL_FILE)
     joblib.dump(encoder, ENCODER_FILE)
     joblib.dump(scaler, SCALER_FILE)
-    print("TensorFlow model, encoder, and scaler saved")
+    print("✅ TensorFlow model, encoder, and scaler saved for 'For sale'")
 
-def predict_rent_tf(user_input: dict) -> float:
+def predict_sale_tf(user_input: dict) -> float:
     model = tf.keras.models.load_model(MODEL_FILE)
     encoder = joblib.load(ENCODER_FILE)
     scaler = joblib.load(SCALER_FILE)
@@ -592,13 +596,12 @@ def predict_rent_tf(user_input: dict) -> float:
     df[NUMERICAL] = df[NUMERICAL].fillna(df[NUMERICAL].median())
 
     X, _, _ = encode_and_scale(df, fit=False, encoder=encoder, scaler=scaler)
-    log_price = model.predict(X.values)[0][0]
-    price = np.expm1(log_price)  # invert log1p transform
+    price = model.predict(X)[0][0]
     return float(price)
 
-def update_model_with_real_price_tf(user_input, real_price):
-    df = pd.read_csv(DATA_FILE, header=None)
-    df.columns = COLUMNS
+
+def update_model_with_real_price_tf(user_input: dict, real_price: float):
+    df = load_csv(DATA_FILE)
     new_row = user_input.copy()
     new_row['price'] = real_price
     df = pd.concat([df, pd.DataFrame([new_row])], ignore_index=True)
@@ -606,10 +609,12 @@ def update_model_with_real_price_tf(user_input, real_price):
     train_tf_model()
 
 if __name__ == "__main__":
+    # Train model first
     train_tf_model()
 
+    # Get user input
     user_input = {
-        'listing_type': input("Listing type: "),
+        'listing_type': 'For sale',
         'area': input("Area: "),
         'rooms': float(input("Rooms: ")),
         'area_sqm': float(input("Area sqm: ")),
@@ -622,13 +627,14 @@ if __name__ == "__main__":
         'longitude': float(input("Longitude: "))
     }
 
-    predicted_price = predict_rent_tf(user_input)
-    print(f"\n💰 Predicted rent (TF): €{predicted_price:.2f}")
+    predicted_price = predict_sale_tf(user_input)
+    print(f"\n💰 Predicted sale price (TF): €{predicted_price:.2f}")
 
     feedback = input("Do you know the real price for this property? (y/n): ").lower()
     if feedback == 'y':
         real_price = float(input("Enter the real price: "))
         update_model_with_real_price_tf(user_input, real_price)
         print(f"Model updated with new price: €{real_price}")
+
 ```
 
