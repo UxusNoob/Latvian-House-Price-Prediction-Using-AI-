@@ -497,9 +497,6 @@ import numpy as np
 import tensorflow as tf
 from sklearn.preprocessing import OneHotEncoder, StandardScaler
 
-# -----------------------------
-# CONFIG
-# -----------------------------
 DATA_FILE = 'riga.csv'
 MODEL_FILE = 'latvia_sale_model_tf.keras'
 ENCODER_FILE = 'latvia_sale_encoder.pkl'
@@ -523,18 +520,14 @@ def load_csv(path):
     return df
 
 def preprocess_data(df):
-    # Only "For sale" listings
     df = df[df['listing_type'] == 'For sale'].copy()
     df = df.drop(columns=['address'])
     
-    # Convert numerical columns
     for col in NUMERICAL + [TARGET]:
         df[col] = pd.to_numeric(df[col], errors='coerce')
     
-    # Fill missing values
     df[NUMERICAL] = df[NUMERICAL].fillna(df[NUMERICAL].median())
     df[TARGET] = df[TARGET].fillna(df[TARGET].median())
-    
     return df
 
 def encode_and_scale(df, fit=True, encoder=None, scaler=None):
@@ -573,7 +566,6 @@ def train_tf_model():
     df = load_csv(DATA_FILE)
     df = preprocess_data(df)
 
-    # Target: raw sale price (no log)
     y = df[TARGET].values
     X, encoder, scaler = encode_and_scale(df, fit=True)
 
@@ -602,11 +594,10 @@ def train_tf_model():
         verbose=1
     )
 
-    # Save model and preprocessing objects
     model.save(MODEL_FILE)
     joblib.dump(encoder, ENCODER_FILE)
     joblib.dump(scaler, SCALER_FILE)
-    print("✅ TensorFlow model, encoder, and scaler saved for 'For sale'")
+    print("TensorFlow model, encoder, and scaler saved for 'For sale'")
 
 def predict_sale_tf(user_input: dict) -> float:
     model = tf.keras.models.load_model(MODEL_FILE)
@@ -622,7 +613,6 @@ def predict_sale_tf(user_input: dict) -> float:
     price = model.predict(X)[0][0]
     return float(price)
 
-
 def update_model_with_real_price_tf(user_input: dict, real_price: float):
     df = load_csv(DATA_FILE)
     new_row = user_input.copy()
@@ -632,10 +622,8 @@ def update_model_with_real_price_tf(user_input: dict, real_price: float):
     train_tf_model()
 
 if __name__ == "__main__":
-    # Train model first
     train_tf_model()
 
-    # Get user input
     user_input = {
         'listing_type': 'For sale',
         'area': input("Area: "),
@@ -651,13 +639,12 @@ if __name__ == "__main__":
     }
 
     predicted_price = predict_sale_tf(user_input)
-    print(f"\n💰 Predicted sale price (TF): €{predicted_price:.2f}")
+    print(f"\nPredicted sale price (TF): €{predicted_price:.2f}")
 
     feedback = input("Do you know the real price for this property? (y/n): ").lower()
     if feedback == 'y':
         real_price = float(input("Enter the real price: "))
         update_model_with_real_price_tf(user_input, real_price)
         print(f"Model updated with new price: €{real_price}")
-
 ```
 
