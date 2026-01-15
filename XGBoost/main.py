@@ -77,13 +77,13 @@ print("Model trained and saved successfully")
 
 y_pred_test = model.predict(X_test)
 metrics_test = evaluate_regression(y_test.values, y_pred_test)
-print("📊 Test Set Metrics:")
+print("Test Set Metrics:")
 for k,v in metrics_test.items():
     print(f"{k}: {v:.2f}")
 
 y_pred_cv = cross_val_predict(model, X, y, cv=5)
 metrics_cv = evaluate_regression(y, y_pred_cv)
-print("\n📊 5-Fold Cross-Validation Metrics:")
+print("\n5-Fold Cross-Validation Metrics:")
 for k,v in metrics_cv.items():
     print(f"{k}: {v:.2f}")
 
